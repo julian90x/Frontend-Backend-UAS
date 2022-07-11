@@ -1,13 +1,14 @@
 import "bootstrap/dist/css/bootstrap.min.css"
-import Link from "next/dist/client/link";
-import Nav from "../component/user/Nav";
-import { useRouter } from "next/router";
-import UserLayout from "../component/user/UserLayout";
-export default function Home(props) {
-  return (
-    <div>
-      <UserLayout>
-        <div>
+import Data_Mobil from "../../component/user/Data_Mobil";
+import UserLayout from "../../component/user/UserLayout";
+
+
+export default function data_mobil({data}) {
+
+    return (
+        <UserLayout>
+            <div className="container mt-3">
+            <div>
           <main role="main">
             <section className="jumbotron text-center">
               <div className="container">
@@ -22,24 +23,17 @@ export default function Home(props) {
             <div className="album py-5 bg-light">
               <div className="container">
                 <div className="row">
-                  {props.data.map((mbl,index)=>{
-                    return ( <div key={index} className="col-md-4">
+                <div  className="col-md-4">
                     <div className="card mb-4 box-shadow">
                       <img className="card-img-top" src="/mobil.jpg" alt="Card image cap" />
                       <div className="card-body">
-                        <p className="card-text">{mbl.nama_mobil}</p>
-                        <div className="d-flex justify-content-between align-items-center">
-                          <div className="btn-group">
-                            <a className="btn btn-sm btn-outline-secondary" href={`/user/${mbl.id}`}>view</a>
-                          
-                          </div>
-                          <small className="text-muted">9 mins</small>
-                        </div>
+                        <p className="card-text">{data.nama_mobil}</p>
+                        <p className="card-text">{data.tahun}</p>
+                        <p className="card-text">{data.warna}</p>
+                      
                       </div>
                     </div>
-                  </div>)
-                  })}
-                 
+                  </div>
                 </div>
               </div>
             </div>
@@ -53,17 +47,16 @@ export default function Home(props) {
             </div>
           </footer>
         </div>
-
-      </UserLayout>
-    </div>
-
-  )
+            </div>
+        </UserLayout>
+    )
 }
 
 export async function getServerSideProps({query}) {
-  let url = 'http://localhost:5000/mobil'
-  const res = await fetch(url)
-  const data = await res.json()
-  
-  return {props : {data}}
-}
+    const id = query.id;
+    let url = `http://localhost:5000/mobil/${id}`
+    const res = await fetch(url)
+    const data = await res.json()
+    
+    return {props : {data}}
+  }
